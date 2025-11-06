@@ -75,7 +75,7 @@ socket.on("connect_error", (err) => {
                 this.initHomeData();
             });
         } else {
-            this.initHomeData();
+            //this.initHomeData();
         }
         cc.log(socket);
         this.audioMng = this.audioMng.getComponent('Audio');
@@ -184,9 +184,9 @@ socket.on("connect_error", (err) => {
         cc.director.loadScene('baibaoxiang');
     },
    update: function (dt) {
-        if(!cc.ss.soket){
-            cc.ss.soket=cc.ss.config.socket();
-        }
+        // if(!cc.ss.soket){
+        //     cc.ss.soket=cc.ss.config.socket();
+        // }
     },
     gameMatch:function(){
        cc.director.loadScene('Match');

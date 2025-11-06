@@ -68,7 +68,7 @@ cc.Class({
          //socket=window.io('http://192.168.0.100:7777');
          PersonMsg=JSON.parse(cc.sys.localStorage.getItem("UserMessage"));
          socket.on('joinroom'+PersonMsg.name,(param)=>{
-               param=JSON.parse(param);
+              // param=JSON.parse(param);
                console.log(param);
               if(param.status===true){
                  // cc.sys.localStorage.setItem("roomid",JSON.stringify(param.msg.roomid));
@@ -91,7 +91,8 @@ cc.Class({
           
           //  展示人数 
         socket.on('selectnum'+PersonMsg.name,(param)=>{
-            param=JSON.parse(param);
+            if (typeof param === 'string')
+                param=JSON.parse(param);
             console.log(param);
              this.num1.string=param.msg.num1+'人';
              this.num2.string=param.msg.num2+'人';
@@ -190,6 +191,7 @@ cc.Class({
         socket.emit('selectnum',data)
     },
     buttonOnclick:function(){
+        cc.log("buttonOnclick...");
         var self =this;
          switch(this.coinType){
            case 'sliver':if(PersonMsg.Scoin<this.moneyType){
@@ -237,6 +239,7 @@ cc.Class({
            default:  break;
        }
         var param={type:this.yazhuType,userid:PersonMsg.Userid,name:PersonMsg.name,coin:this.coinType,money:this.moneyType,};
+        cc.log("socket.emit joinroom:"+param);
         socket.emit('joinroom',param);
         socket.emit('Gsavenum',param);
 

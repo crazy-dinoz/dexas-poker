@@ -5,6 +5,15 @@ cc.Class({ extends: cc.Component,
       transports: ["websocket", "polling"], // fallback an toàn
       withCredentials: false                // 👈 Tắt credentials để tránh lỗi CORS
     });
+  // ✅ debug all events (for old socket.io-client)
+      var onevent = s.onevent;
+      s.onevent = function (packet) {
+          console.log("📡 Socket event:", packet.data[0], "data:", packet.data.slice(1));
+          onevent.call(this, packet);
+      };
+
+      s.on("connect", () => console.log("✅ Connected:", s.id));
+      s.on("connect_error", (err) => console.error("❌ Socket connect error:", err));
   //  // ⚡ log test kết nối
   //   s.on('connect', () => cc.log("✅ Socket connected to server"));
   //   s.on('disconnect', () => cc.log("⚠️ Socket disconnected"));

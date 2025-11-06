@@ -60,6 +60,7 @@ cc.Class({
         
         socket.emit('joinroom',param={name:m.name,money:'1K',coin:'gold',type:'wuxian'});
         socket.on(m.name,(msg)=>{
+           if (typeof msg === 'string')
             msg=JSON.parse(msg);
             //获得已有的名字
             this.roomid=msg.msg.roomid;
@@ -101,8 +102,8 @@ cc.Class({
         this.player6Name.string=this.player6;
         this.player7Name.string=this.player7;
         this.player8Name.string=this.player8;
-         if(!cc.ss.soket){
-       cc.ss.soket=cc.ss.config.socket();
-        }
+      //    if(!cc.ss.soket){
+      //  cc.ss.soket=cc.ss.config.socket();
+      //   }
     },
 });

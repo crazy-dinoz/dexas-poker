@@ -109,7 +109,7 @@ function selectAll(name,callback){
 // 获取query里值得方法query[0].b.[0].Name
 function SelectFriend(msg,callback){
     var query=new Array();
-    var str=new sqlcmd.Select('friend',["YourUserId"]).Where({MyUserId:msg.myuserid}).query;
+    var str=new sqlcmd.Select('friend',["MyUserId"]).Where({MyUserId:msg.myuserid}).query;
     sqlcmd.Doit(str,(a,b)=>{
         console.log(a);
         console.log(b);
@@ -215,7 +215,7 @@ function VIP(param,callback){
            
 }
 //一天一次抽奖
-function timetoday(userid){
+function timetoday(userid, callback){
     var rule = new schedule.RecurrenceRule();  
     rule.hour = [0,24];
     var j = schedule.scheduleJob(rule, function(){  

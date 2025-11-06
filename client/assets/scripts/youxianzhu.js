@@ -261,9 +261,12 @@ cc.Class({
     onLoad: function () {
         this.act='';
         this.flagQ=0;
-        if(cc.ss.soket){
-        socket=cc.ss.soket;
-            }
+        if (cc.ss.soket) {
+            var socket = cc.ss.soket; // Khai báo biến socket
+        } else {
+            cc.ss.soket = cc.ss.config.socket(); // Khởi tạo socket nếu chưa có
+            var socket = cc.ss.soket; // Gán lại cho biến socket
+        }
             var self=this;
             this.flagJ=0;
             var m=JSON.parse(cc.sys.localStorage.getItem("UserMessage"));
@@ -306,6 +309,7 @@ cc.Class({
             }
             this.room=JSON.parse(cc.sys.localStorage.getItem("roomid")).roomid;
              socket.on('home'+m.name,(msg)=>{
+                cc.log(msg)
                 msg=JSON.parse(msg);
                
                 if(JSON.parse(cc.sys.localStorage.getItem("roomid")).coin=='sliver'){
@@ -386,8 +390,9 @@ cc.Class({
         
         socket.emit('UpdateRoom',this.room);
          socket.on('UpdateRoomBack'+this.room,(msg)=>{
-            
-            var a=JSON.parse(msg);
+            cc.log(msg);
+            //var a=JSON.parse(msg);
+            var a = msg;
             console.log('aaaaaa'+a.number1);
             if(m.name==a.number1){
                 var mmm={roomid:self.room,name:m.name,money:self.allmoney,change:0,action:'',coinType:self.type};
@@ -422,7 +427,8 @@ cc.Class({
                 socket.emit('coming8',mmm);
             }
         });
-             socket.on(self.room+'come1',(msg)=>{
+            socket.on(self.room+'come1',(msg)=>{
+            cc.log(msg)
             msg=JSON.parse(msg);
             console.log(msg.money);
             self.player1.active=true;
@@ -436,7 +442,8 @@ cc.Class({
        });
        
        socket.on(self.room+'come2',(msg)=>{
-             msg=JSON.parse(msg);
+            cc.log(msg)
+            msg=JSON.parse(msg);
             self.player2.active=true;
             self.player2Name.string=msg.name;
            if(msg.money>10000){
@@ -448,6 +455,7 @@ cc.Class({
           
        });
        socket.on(self.room+'come3',(msg)=>{
+         cc.log(msg)
          msg=JSON.parse(msg);
             self.player3.active=true;
            self.player3Name.string=msg.name;
@@ -514,6 +522,7 @@ cc.Class({
             
        });
        socket.on('tuifang'+self.room,(data)=>{
+            cc.log(data);
            data=JSON.parse(data);
            if(data==self.player1Name.string){
                self.player1.active=false;
@@ -540,6 +549,7 @@ cc.Class({
            }
        });
             socket.on(self.room+'xiazhuChanged',(msg)=>{
+                cc.log(msg);
           msg=JSON.parse(msg);
             if(msg.name==self.player1Name.string){
                if(msg.num>10000){
@@ -592,6 +602,7 @@ cc.Class({
            }
        });
        socket.on(self.room+'moneyChanged',(msg)=>{
+        cc.log(msg);
            msg=JSON.parse(msg);
         
             if(msg.action=='check'){
@@ -656,6 +667,7 @@ cc.Class({
            }
        })
        socket.on('zhuang'+self.room,(msg)=>{
+        cc.log(msg);
            var msg=JSON.parse(msg);
 	if(msg.name==self.player1Name.string){
 		self.zhuang1.active=true;
@@ -739,6 +751,7 @@ if(msg.name==self.player8Name.string){
 	}
 });
     socket.on('selectname'+self.room,(msg)=>{
+        cc.log(msg);
         msg=JSON.parse(msg);
     if(msg.name==self.player1Name.string){
 		self.time1.active=true;
@@ -823,6 +836,7 @@ if(msg.name==self.player8Name.string){
         
     });
         socket.on('huojiang2'+self.room,(msg)=>{
+            cc.log(msg);
          msg=JSON.parse(msg);
          if(msg.name==self.player1Name.string){
             self.jiang1.string="胜利+"+msg.num+"\n"+"经验+1";
@@ -883,7 +897,7 @@ if(msg.name==self.player8Name.string){
          
     });
   socket.on('paipaipai'+self.room,(msg)=>{
-       
+       cc.log(msg);
         msg=JSON.parse(msg);
         if(msg.name==m.name){
         self.shoupai=[];
@@ -1012,6 +1026,7 @@ if(msg.name==self.player8Name.string){
         }
     });
       socket.on(self.room+'dichi',(msg)=>{
+        cc.log(msg);
            msg=JSON.parse(msg);
            if(msg.num>10000){
                     self.dichi.string='底池：'+(msg/10000).toFixed(2)+'万';
@@ -1035,7 +1050,8 @@ if(msg.name==self.player8Name.string){
          self.xiazhu.string=self.xiazhumoney;
          //监听用户顺序
         socket.on(self.room,function(data){//一直监听  操作需要执行动作的玩家
-         data=JSON.parse(data);
+         cc.log(data);
+            data=JSON.parse(data);
           self.money=data.money;
           
           if(self.money==self.xiazhumoney){

@@ -139,6 +139,7 @@ cc.Class({
        socket.emit('passIsNull',msg); 
        
        socket.on(PersonMsg.name+'passIsNull',(param)=>{
+         if (typeof param === 'string')
            param=JSON.parse(param);
            console.log(param);
            if(param.status==200){
@@ -154,6 +155,7 @@ cc.Class({
            }
        });
        socket.on(PersonMsg.name+'boxCheck',(param)=>{
+         if (typeof param === 'string')
             param=JSON.parse(param);
            if(param.status===true){
            var data={userid:PersonMsg.Userid,name:PersonMsg.name};

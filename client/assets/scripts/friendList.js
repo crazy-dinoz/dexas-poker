@@ -22,6 +22,7 @@ cc.Class({
         socket.emit('System',param);
         socket.emit('selectfriend',param); 
         socket.on('Allfriend'+m.name,(msg)=>{
+             if (typeof msg === 'string')
               msg=JSON.parse(msg);
                console.log("1111111111111111111111111111111111111111");
                  console.log(msg);
