@@ -1,5 +1,5 @@
 /client/library
 /client/temp
 /sever/node_modules
-/client
 /sever/.vscode
+/client/local
